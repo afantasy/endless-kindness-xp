@@ -94,7 +94,7 @@
       });
 
     </script>
-    <a-scene fog="type: linear; color: #cc6699; near: 1; far: 1500">
+    <a-scene fog="type: linear; color: #000066; near: 1; far: 1400">
 
       <a-assets>
         <!-- ASSETS -->
@@ -128,17 +128,20 @@
 
       <a-entity light="type: hemisphere; color: blue; groundColor: #000066; intensity: 2"></a-entity>
 
+      <a-entity light="type: point; intensity: 0.75; distance: 50; decay: 2"
+      position="0 10 10"></a-entity>
+
       <!-- camera -->
       <a-entity id="#rig" position="0 2 0.25">
         <a-entity id="camera" camera wasd-controls look-controls></a-entity>
       </a-entity>
 
       <!-- sky -->
-      <a-sphere scale="1000 1000 1000" material="metalness:0.9; roughness: 0; sphericalEnvMap: #grad-02; side: double;" position="0 0 0">
+      <a-sphere scale="1000 1000 1000" material="metalness:0.9; roughness: 0; sphericalEnvMap: #grad-03; side: double;" position="0 0 0">
       </a-sphere>  
 
       <!-- ground -->
-      <a-circle src="#grad-03" position="0 0 -4" radius="50" rotation="-90 180 0"></a-circle> 
+      <a-circle color="#990000" position="0 0 -4" radius="50" rotation="-90 180 0"></a-circle> 
 
       <!-- <a-cylinder radius="60" height="0" position="0 -0.5 -4" material="src:#grad-03;"></a-cylinder> -->
 
