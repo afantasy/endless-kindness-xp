@@ -21,8 +21,14 @@ module.exports = merge(common, {
       errors: true
     }
   },
-  plugins: [new HtmlWebpackPlugin({
+  plugins: [
+  new HtmlWebpackPlugin({
     template: "./src/index.html",
+    // Injects file in the head of the html
+    inject: 'head'
+  }),
+  new HtmlWebpackPlugin({
+    template: "./src/plane-03.html",
     // Injects file in the head of the html
     inject: 'head'
   })]

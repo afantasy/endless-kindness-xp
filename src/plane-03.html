@@ -1,0 +1,53 @@
+<!--   A Spa Theory experience
+* * *  ／(･ × ･)＼ ✿ ／(˃ᆺ˂)＼ ✿ ／(^ × ^)＼
+* * *  http://spatheory.co
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Macy Rodman × Spa Theory : Endless Kindness Experience</title>
+  </head>
+  <body>
+    <a-scene>
+        <a-assets>
+            <!-- ASSETS -->
+            <!-- 3D MODELS -->
+            <a-asset-item id="tree-obj" src="assets/macy_sample.obj"></a-asset-item>
+            <a-asset-item id="tree-obj" src="assets/macy_sample.mtl"></a-asset-item>
+
+            <a-asset-item id="cityModel" src="https://cdn.aframe.io/test-models/models/glTF-2.0/virtualcity/VC.gltf"></a-asset-item>
+            <!-- PLANE THUMBNAILS -->
+            <img id="plane-01" src="assets/Plane-01.png">
+            <img id="plane-02" src="assets/Plane-02.png">
+            <img id="plane-03" src="assets/Plane-03.png">
+
+            <!-- TEST GRADIENTS -->
+            <img id="grad-01" src="assets/gradients/EK_testgradients-01.png">
+            <img id="grad-02" src="assets/gradients/EK_testgradients-02.png">
+            <img id="grad-03" src="assets/gradients/EK_testgradients-03.png">
+            <img id="grad-04" src="assets/gradients/EK_testgradients-04.png">
+    
+          </a-assets>
+
+      <!-- camera -->
+      <a-entity id="#rig" position="0 500 750">
+          <a-entity id="camera" camera wasd-controls look-controls></a-entity>
+      </a-entity>
+
+      <!-- idol -->
+      <a-entity position="0 -1500 0" scale="20 20 20">
+          <a-entity obj-model="obj: #tree-obj; mtl: #tree-mtl"></a-entity>
+      </a-entity>
+      <!-- sky -->
+      <a-sphere 
+        scale="2500 2500 2500"
+        material="metalness:1; roughness: 0; sphericalEnvMap: #grad-02; side: double;" position="0 0 0">
+      </a-sphere>  
+
+    </a-scene>
+  </body>
+</html>
