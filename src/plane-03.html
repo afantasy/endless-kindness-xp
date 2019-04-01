@@ -16,10 +16,10 @@
         <a-assets>
             <!-- ASSETS -->
             <!-- 3D MODELS -->
-            <a-asset-item id="tree-obj" src="assets/macy_sample.obj"></a-asset-item>
-            <a-asset-item id="tree-obj" src="assets/macy_sample.mtl"></a-asset-item>
+            <a-asset-item id="macy-obj" src="assets/macy_sample.obj"></a-asset-item>
+            <a-asset-item id="macy-obj" src="assets/macy_sample.mtl"></a-asset-item>
+            <a-asset-item id="macy-fbx" src="assets/macy_sample.fbx"></a-asset-item>
 
-            <a-asset-item id="cityModel" src="https://cdn.aframe.io/test-models/models/glTF-2.0/virtualcity/VC.gltf"></a-asset-item>
             <!-- PLANE THUMBNAILS -->
             <img id="plane-01" src="assets/Plane-01.png">
             <img id="plane-02" src="assets/Plane-02.png">
@@ -34,17 +34,40 @@
           </a-assets>
 
       <!-- camera -->
-      <a-entity id="#rig" position="0 500 750">
-          <a-entity id="camera" camera wasd-controls look-controls></a-entity>
+      <a-entity animation="property: position; from: -0.25 0 0; to: 0.25 0 0; dur: 1500; easing: easeInOutSine; dir: alternate; loop: true;" scale="1 1 1" >  
+        
+      </a-entity>
+
+      <a-entity id="#rig" position="0 1500 1800" rotation="0 -15 0">
+          <a-entity id="camera" camera wasd-controls look-controls orbit-controls="target: 0 25 -25; minDistance: 0.5; maxDistance: 180; initialPosition: 0 0 0; autoRotate: true;autoRotateSpeed: 1;">  
+              <a-entity obj-model="obj: #macy-obj; mtl: #macy-mtl" rotation="-60 0 0" position="0 -38 -50" scale="0.5 0.5 0.5"></a-entity> 
+          </a-entity> 
+      </a-entity>
+ 
+      </a-entity>
+          <!-- <a-entity camera look-controls orbit-controls="target: 0 5 750; minDistance: 250; maxDistance: 7500; initialPosition: 0 500 750; rotateSpeed: 0.25; enablePan: true;">
+
+          </a-entity> -->
+
+      <!-- minime -->
+      <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 20000">
+          <a-entity obj-model="obj: #macy-obj; mtl: #macy-mtl" rotation="-60 0 0" scale="0.5 0.5 0.5" position="500 500 500"></a-entity> 
+      </a-entity>
+
+      <a-entity rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur: 30000" animation__up="property: position; to: 0 25 0; dur: 2500; easing: easeInOutSine; dir: alternate; loop: true;">
+          <a-entity obj-model="obj: #macy-obj; mtl: #macy-mtl" rotation="-60 0 45" scale="0.5 0.5 0.5" position="900 900 900"></a-entity> 
       </a-entity>
 
       <!-- idol -->
-      <a-entity position="0 -1500 0" scale="20 20 20">
-          <a-entity obj-model="obj: #tree-obj; mtl: #tree-mtl"></a-entity>
+      <a-entity position="0 -2500 0" rotation="0 0 0" scale="23 23 23" animation="property: rotation; to: 0 360 0; loop: true; dur: 15000">
+          <a-entity obj-model="obj: #macy-obj; mtl: #macy-mtl"></a-entity>
+          <!-- <a-entity scale="10 10 10" fbx-model="src: url(#macy-fbx);">
+          </a-entity> -->
       </a-entity>
+
       <!-- sky -->
       <a-sphere 
-        scale="2500 2500 2500"
+        scale="7500 7500 7500"
         material="metalness:1; roughness: 0; sphericalEnvMap: #grad-02; side: double;" position="0 0 0">
       </a-sphere>  
 
