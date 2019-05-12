@@ -1,0 +1,276 @@
+<!--   A Spa Theory experience
+* * *  ／(･ × ･)＼ ✿ ／(˃ᆺ˂)＼ ✿ ／(^ × ^)＼
+* * *  http://spatheory.co
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Macy Rodman × Spa Theory : Endless Kindness Experience</title>
+  </head>
+  <body>
+  <!-- SPRITESHEET COMPONENT --> 
+  <script>
+
+      // if (typeof AFRAME === 'undefined') {
+      //   throw new Error('Component attempted to register before AFRAME was available.');
+      // }
+
+      // THIS WILL BE A SPRITESHEET ANIMATION
+      AFRAME.registerComponent('dietsprite', {
+        // Allow component variables
+        schema: {
+          /* shader */
+          color: { default: '#333'},
+          
+          /* texture */
+          map: {type: 'string'},
+
+          /* animation settings */
+          tilesHorizontal: { default: 1 },
+          tilesVertical: { default: 2 },
+          speedtest: { default: 0.1 }
+        },
+
+        // Initialize sprite
+        init: function() {
+          var data = this.data;
+          var el = this.el;
+          this.colCount = 0;
+          this.rowCount = 0;
+
+          this.numTiles = data.tilesHorizontal*data.tilesVertical;
+          
+          // Configure texture
+          this.spriteTexture = new THREE.ImageUtils.loadTexture('assets/sprites/DSC_0005_sprite.png');
+          this.spriteTexture.wrapS = THREE.RepeatWrapping;
+          this.spriteTexture.wrapT = THREE.RepeatWrapping;
+          this.spriteTexture.repeat.set (1/data.tilesHorizontal,1/data.tilesVertical);
+
+          // Create material
+          this.material = new THREE.MeshBasicMaterial({
+            transparent: true,
+            map: this.spriteTexture,
+            wireframe: false
+          });
+
+          // Create geometry
+          this.geometry = new THREE.PlaneGeometry(1.5, 2.5);
+
+          // Create mesh
+          this.mesh = new THREE.Mesh(this.geometry, this.material);
+
+          // Apply mesh to entity
+          el.setObject3D('mesh', this.mesh);
+        },
+
+        update: function() {
+            
+        },
+
+        tick: function(time, timeDelta) {
+          if (this.colCount<this.data.tilesHorizontal) {
+            this.spriteTexture.offset.x = (this.colCount/this.data.tilesHorizontal);
+            this.colCount++;
+            console.log("column:"+this.colCount);
+          } else {
+            this.colCount = 0;
+            this.rowCount++;
+            console.log("row:"+this.rowCount);
+            while (this.rowCount>=this.data.tilesVertical) {
+              this.rowCount = 0;
+            }
+          }
+        },
+
+        // Remove mesh
+        remove: function() {
+          // this.el.removeObject3D('mesh');
+        }
+      });
+
+    </script>
+    <a-scene fog="type: linear; color: #000066; near: 1; far: 1400">
+
+      <a-assets>
+        <!-- ASSETS -->
+        <img id="road" src="assets/heart-shuffle.gif">
+        <img id="face" src="assets/MACYFACE.png">
+        <!-- PLANE THUMBNAILS -->
+        <img id="plane-01" src="assets/Plane-01.png">
+        <img id="plane-02" src="assets/Plane-02.png">
+        <img id="plane-03" src="assets/Plane-03.png">
+        <!-- TEST GRADIENTS -->
+        <img id="grad-01" src="assets/gradients/EK_testgradients-01.png">
+        <img id="grad-02" src="assets/gradients/EK_testgradients-02.png">
+        <img id="grad-03" src="assets/gradients/EK_testgradients-03.png">
+        <img id="grad-04" src="assets/gradients/EK_testgradients-04.png">
+        <!-- FONTS -->
+        <a-asset id="dawningFont" src="assets/fonts/dawningOfANewDayRegular.typeface.json"></a-asset>
+        <!-- MIX-IN -->
+        <a-mixin id="ring"
+        geometry="primitive: torus; radius: 1; radius-tubular:0.1;"
+        material="color: #ffcc33; roughness: 0.25, metalness: 1, "
+        scale="0.25 0.25 0.25" 
+        rotation="0 0 0"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 3600"
+        ></a-mixin>
+        <a-mixin id="roadrunner" geometry="primitive: plane;" scale="8 40" rotation="-90 0 0" material="shader: gif; src:#road; blending: additive; opacity: 1;"></a-mixin>
+      </a-assets>
+
+      <!-- lighting -->
+      <a-entity light="type: ambient; color: #ccc"></a-entity>
+
+      <a-entity light="type: hemisphere; color: blue; groundColor: #000066; intensity: 2"></a-entity>
+
+      <a-entity light="type: point; intensity: 0.75; distance: 50; decay: 2"
+      position="0 10 10"></a-entity>
+
+      <!-- camera -->
+      <a-entity id="#rig" position="0 2 0.25">
+        <a-entity id="camera" camera wasd-controls look-controls></a-entity>
+      </a-entity>
+
+      <!-- sky -->
+      <a-sphere scale="1000 1000 1000" material="metalness:0.9; roughness: 0; sphericalEnvMap: #grad-03; side: double;" position="0 0 0">
+      </a-sphere>  
+
+      <!-- ground -->
+      <a-circle color="#990000" position="0 0 -4" radius="50" rotation="-90 180 0"></a-circle> 
+
+      <!-- <a-cylinder radius="60" height="0" position="0 -0.5 -4" material="src:#grad-03;"></a-cylinder> -->
+
+      <!-- recycle: road  -->
+      <a-entity animation="property: position; from: 0 0 40; to: 0 0 -40; dur: 3200; easing: linear; loop: true;">
+
+      <a-entity position="0 0.0005 0">
+        <!-- road runner gif -->
+        <a-entity mixin="roadrunner" position="0 0 -80"></a-entity>
+        <a-entity mixin="roadrunner" position="0 0 -40"></a-entity>
+        <a-entity mixin="roadrunner" position="0 0 0"></a-entity>
+        <a-entity mixin="roadrunner" position="0 0 40"></a-entity>
+        <a-entity mixin="roadrunner" position="0 0 80"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <!-- recycle: slower -->
+      <a-entity animation="property: position; from: 0 0 -100; to: 0 0 100; dur: 14000; easing: easeInOutSine; loop: true;">
+
+          <!-- heart: right -->
+          <a-entity id="heart" position="5 5 0" scale="1.5 1.5 1.5" rotation="0 0 0" animation="property: rotation;">
+                
+              <a-entity
+              rotation="0 0 -2"
+              position="-1 -1.25 0"
+              text-geometry="value: M; font: #dawningFont; bevelEnabled: true; bevelSize: 0.015; bevelThickness: 0.035; curveSegments: 2; size: 0.75; height: 0;"
+              material="metalness:1; roughness: 0; sphericalEnvMap: #grad-02;"></a-entity>
+    
+              <a-entity mixin="ring" position="-2.0 0.65 0"></a-entity>
+              <a-entity mixin="ring" position="-1.2 0.65 0"></a-entity>
+              <a-entity mixin="ring" position="1.2 0.65 0"></a-entity>
+              <a-entity mixin="ring" position="0.4 0.65 0"></a-entity>
+    
+              <a-entity mixin="ring" position="-2.4 0 0"></a-entity>
+              <a-entity mixin="ring" position="-0.8 0 0"></a-entity>
+              <a-entity mixin="ring" position="0 0 0"></a-entity>
+              <a-entity mixin="ring" position="1.6 0 0"></a-entity>
+    
+              <a-entity mixin="ring" position="-2.0 -0.6 0"></a-entity>
+              <a-entity mixin="ring" position="1.2 -0.6 0"></a-entity>
+              
+              <a-entity mixin="ring" position="-1.6 -1.2 0"></a-entity>
+              <a-entity mixin="ring" position="0.8 -1.2 0"></a-entity>
+    
+              <a-entity mixin="ring" position="-1.2 -1.8 0"></a-entity>
+              <a-entity mixin="ring" position="0.4 -1.8 0"></a-entity>
+    
+              <a-entity mixin="ring" position="-0.8 -2.4 0"></a-entity>
+              <a-entity mixin="ring" position="0 -2.4 0"></a-entity>
+    
+              <a-entity mixin="ring" position="-0.4 -3.0 0"></a-entity>
+          </a-entity>
+
+          <!-- heart: left -->
+          <a-entity id="heart" position="-5 5 -30" scale="1.5 1.5 1.5" rotation="0">
+              <a-entity
+              rotation="0 0 0"
+              position="-1 -1.25 0"
+              text-geometry="value: M; font: #dawningFont; bevelEnabled: true; bevelSize: 0.015; bevelThickness: 0.035; curveSegments: 2; size: 0.75; height: 0;"
+              material="metalness:1; roughness: 0; sphericalEnvMap: #grad-02;"></a-entity>
+              <a-entity mixin="ring" position="-2.0 0.65 0"></a-entity>
+              <a-entity mixin="ring" position="-1.2 0.65 0"></a-entity>
+              <a-entity mixin="ring" position="1.2 0.65 0"></a-entity>
+              <a-entity mixin="ring" position="0.4 0.65 0"></a-entity>
+
+              <a-entity mixin="ring" position="-2.4 0 0"></a-entity>
+              <a-entity mixin="ring" position="-0.8 0 0"></a-entity>
+              <a-entity mixin="ring" position="0 0 0"></a-entity>
+              <a-entity mixin="ring" position="1.6 0 0"></a-entity>
+
+              <a-entity mixin="ring" position="-2.0 -0.6 0"></a-entity>
+              <a-entity mixin="ring" position="1.2 -0.6 0"></a-entity>
+              
+              <a-entity mixin="ring" position="-1.6 -1.2 0"></a-entity>
+              <a-entity mixin="ring" position="0.8 -1.2 0"></a-entity>
+
+              <a-entity mixin="ring" position="-1.2 -1.8 0"></a-entity>
+              <a-entity mixin="ring" position="0.4 -1.8 0"></a-entity>
+
+              <a-entity mixin="ring" position="-0.8 -2.4 0"></a-entity>
+              <a-entity mixin="ring" position="0 -2.4 0"></a-entity>
+
+              <a-entity mixin="ring" position="-0.4 -3.0 0"></a-entity>
+          </a-entity>
+
+          <!-- heart: right -->
+          <a-entity id="heart" position="5 5 -90" scale="1.5 1.5 1.5" rotation="0 0 0" animation="property: rotation;">
+      
+              <a-entity
+              rotation="0 0 -2"
+              position="-1 -1.25 0"
+              text-geometry="value: M; font: #dawningFont; bevelEnabled: true; bevelSize: 0.015; bevelThickness: 0.035; curveSegments: 2; size: 0.75; height: 0;"
+              material="metalness:1; roughness: 0; sphericalEnvMap: #grad-02;"></a-entity>
+    
+              <a-entity mixin="ring" position="-2.0 0.65 0"></a-entity>
+              <a-entity mixin="ring" position="-1.2 0.65 0"></a-entity>
+              <a-entity mixin="ring" position="1.2 0.65 0"></a-entity>
+              <a-entity mixin="ring" position="0.4 0.65 0"></a-entity>
+    
+              <a-entity mixin="ring" position="-2.4 0 0"></a-entity>
+              <a-entity mixin="ring" position="-0.8 0 0"></a-entity>
+              <a-entity mixin="ring" position="0 0 0"></a-entity>
+              <a-entity mixin="ring" position="1.6 0 0"></a-entity>
+    
+              <a-entity mixin="ring" position="-2.0 -0.6 0"></a-entity>
+              <a-entity mixin="ring" position="1.2 -0.6 0"></a-entity>
+              
+              <a-entity mixin="ring" position="-1.6 -1.2 0"></a-entity>
+              <a-entity mixin="ring" position="0.8 -1.2 0"></a-entity>
+    
+              <a-entity mixin="ring" position="-1.2 -1.8 0"></a-entity>
+              <a-entity mixin="ring" position="0.4 -1.8 0"></a-entity>
+    
+              <a-entity mixin="ring" position="-0.8 -2.4 0"></a-entity>
+              <a-entity mixin="ring" position="0 -2.4 0"></a-entity>
+    
+              <a-entity mixin="ring" position="-0.4 -3.0 0"></a-entity>
+          </a-entity>
+      </a-entity>
+
+      <!-- recycle: slowest -->
+      <a-entity animation="property: position; from: 0 0 -20; to: 0 0 20; dur: 32000; easing: easeInOutSine; loop: true;">
+        <!-- billboard -->
+        <a-curvedimage src="#plane-01" position="0 10 -12" rotation="0 90 0" theta-length="180" height="2.5" opacity="0.7" scale="4.2 4.2 4.2" material="roughness:0.1;metalness:0.75;"></a-curvedimage>
+      </a-entity>  
+
+      <!-- macy sprite -->
+      <a-entity animation="property: position; from: -0.25 0 0; to: 0.25 0 0; dur: 1500; easing: easeInOutSine; dir: alternate; loop: true;">
+        <a-entity dietsprite="color: green; tilesHorizontal: 14; tilesVertical: 2;" position="0 1.2 -2.5"></a-entity>
+      </a-entity>
+    
+    </a-scene>
+  </body>
+</html>
