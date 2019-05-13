@@ -4,3 +4,4 @@ require("aframe");
 require('aframe-extras');
 require("aframe-gif-shader");
 require('aframe-orbit-controls');
+require('aframe-dust-component');
