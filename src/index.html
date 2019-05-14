@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Macy Rodman × Spa Theory : Endless Kindness Experience</title>
-    <script src="/js/shader-frog.js"></script>
   </head>
   <body>
     <a-scene dust-test>
@@ -39,34 +38,26 @@
           </a-assets>
 
       <!-- camera -->
-      <!-- <a-entity id="player"> -->
-          <a-entity id="camera" position="0 100 3000" listener="stepFactor:0.075" camera wasd-controls="acceleration: 2000" look-controls>
-              <a-entity 
-              raycaster="objects: .collidable"
-              cursor="fuse: true; fuseTimeout: 500; rayOrigin: mouse;"
-              position="0 0.07 -0.5"
-              geometry="primitive: ring; radiusInner: 0.005; radiusOuter: 0.008;"
-              material="color: black; shader: flat"
-              >
-              </a-entity>
-              <a-entity obj-model="obj: #macy-obj; mtl: #macy-mtl" rotation="-60 0 0" position="0 -48 -50" scale="0.5 0.5 0.5"></a-entity> 
-          </a-entity> 
-      <!-- </a-entity> -->
- 
+      <a-entity id="player" position="0 100 3000" >
+
+        <a-entity id="cameraRig">
+          <a-entity id="camera" listener="stepFactor:1" camera wasd-controls="acceleration: 5000" look-controls>
+            <a-entity raycaster="objects: .collidable" position="0 -0.9 -0.05" rotation="90 0 0" geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003"></a-entity>
+            <a-entity obj-model="obj: #macy-obj;" rotation="-60 0 0" position="0 -25 -15" scale="0.25 0.25 0.25"></a-entity> 
+          </a-entity>
+        </a-entity>
+
+          <a-entity class="collidable" geometry="primitive: box" position="0 -20 10" scale="5 5 5"></a-entity>
       </a-entity>
-          <!-- <a-entity camera look-controls orbit-controls="target: 0 5 750; minDistance: 250; maxDistance: 7500; initialPosition: 0 500 750; rotateSpeed: 0.25; enablePan: true;">
-
-          </a-entity> -->
-
           
 
       <!-- minime -->
       <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 20000">
-          <a-entity obj-model="obj: #macy-obj; mtl: #macy-mtl" rotation="-60 0 0" scale="0.5 0.5 0.5" position="500 500 500"></a-entity> 
+          <a-entity obj-model="obj: #macy-obj;" rotation="-60 0 0" scale="0.5 0.5 0.5" position="500 500 500"></a-entity> 
       </a-entity>
 
       <a-entity rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur: 30000" animation__up="property: position; to: 0 25 0; dur: 2500; easing: easeInOutSine; dir: alternate; loop: true;">
-          <a-entity obj-model="obj: #macy-obj; mtl: #macy-mtl" rotation="-60 0 45" scale="0.5 0.5 0.5" position="900 900 900"></a-entity> 
+          <a-entity obj-model="obj: #macy-obj;" rotation="-60 0 45" scale="0.5 0.5 0.5" position="900 900 900"></a-entity> 
       </a-entity>
 
       <!-- idol -->
@@ -75,6 +66,13 @@
           <!-- <a-entity scale="10 10 10" fbx-model="src: url(#macy-fbx);">
           </a-entity> -->
       </a-entity>
+
+      <!-- fallen angel -->
+            <!-- fallen angel -->
+            <a-entity id="rain" position="0 10 0" entity-generator="mixin: box">
+              <a-animation attribute="position" dur="16000" easing="linear" repeat="indefinite"
+                           to="0 0 0"></a-animation>
+            </a-entity>
 
       <a-sphere shadow
       shader-frog="name:Electric_Shader" 
@@ -93,48 +91,6 @@
       <a-dust num-points="2000" dispersion="150" color="white" log=false></a-dust>
 
     </a-scene>
-    <script type="text/javascript">
-      // AFRAME.registerComponent("listener", {
-      //   schema : 
-      //   {
-      //     stepFactor : {
-      //       type : "number",
-      //       default : 0.05
-      //     }
-      //   },
-      //   tick : function(){	
-      //     this.el.components.camera.camera.parent.position.add(this.el.components.camera.camera.getWorldDirection().multiplyScalar(this.data.stepFactor));
-      //     // console.log("tick");
-      //   }
-      // });
-
-      // RAYCASTER CHECK
-      AFRAME.registerComponent('collider-check', {
-        dependencies: ['raycaster'],
-
-        init: function () {
-          this.el.addEventListener('raycaster-intersection', function () {
-            console.log('Player hit something!');
-          });
-        }
-      });
-
-      // DUST
-
-      AFRAME.registerComponent('dust-test', {
-            init: function () {
-                let sceneEl = this.el;
-                console.log("dust-test init");
-
-                let cameraEl = sceneEl.querySelector('[camera]');
-                let dustEl = sceneEl.querySelector('a-dust');
-
-                // delays setup until there's some slack time
-                requestIdleCallback( () => {
-                    dustEl.components.dust.setCamera(cameraEl);
-                });
-            }
-        });
-    </script>
+   
   </body>
 </html>
