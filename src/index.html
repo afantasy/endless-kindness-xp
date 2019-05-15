@@ -13,84 +13,76 @@
   </head>
   <body>
     <a-scene dust-test>
-        <a-assets>
-            <!-- ASSETS -->
-            <!-- 3D MODELS -->
-            <a-asset-item id="macy-obj" src="assets/models/macy-idol/macy_sample.obj"></a-asset-item>
-            <!-- <a-asset-item id="macy-mtl" src="assets/models/macy-idol/macy_sample.mtl"></a-asset-item> -->
-
-            <!-- SHADERS -->
-            <!-- <a-asset-item id="cloud" src="shaders/CloudsPlane.json"></a-asset-item> -->
-
-            <!-- PLANE THUMBNAILS -->
-            <img id="plane-01" src="assets/Plane-01.png">
-            <img id="plane-02" src="assets/Plane-02.png">
-            <img id="plane-03" src="assets/Plane-03.png">
-
-            <!-- TEST GRADIENTS -->
-            <img id="grad-01" src="assets/gradients/EK_testgradients-01.png">
-            <img id="grad-02" src="assets/gradients/EK_testgradients-02.png">
-            <img id="grad-03" src="assets/gradients/EK_testgradients-03.png">
-            <img id="grad-04" src="assets/gradients/EK_testgradients-04.png">
-
-            <!---->
-    
-          </a-assets>
-
+      <a-assets>
+        <!-- 3D MODELS -->
+        <a-asset-item id="macy-obj" src="assets/models/macy-idol/macy_sample.obj"></a-asset-item>
+        <a-asset-item id="obj-plants1" src="assets/models/plants1.obj"></a-asset-item>
+        
+        <img id="grad-02" src="assets/gradients/EK_testgradients-02.png">
+      </a-assets>
       <!-- camera -->
       <a-entity id="player" position="0 100 3000" >
 
-        <a-entity id="cameraRig">
-          <a-entity id="camera" listener="stepFactor:1" camera wasd-controls="acceleration: 5000" look-controls>
-            <a-entity raycaster="objects: .collidable" position="0 -0.9 -0.05" rotation="90 0 0" geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003"></a-entity>
-            <a-entity obj-model="obj: #macy-obj;" rotation="-60 0 0" position="0 -25 -15" scale="0.25 0.25 0.25"></a-entity> 
+          <a-entity id="cameraRig">
+            <a-entity id="camera" listener="stepFactor:1" camera wasd-controls="acceleration: 5000" look-controls>
+              <a-entity raycaster="objects: .collidable" position="0 -0.9 -0.05" rotation="90 0 0" geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003"></a-entity>
+              <a-entity obj-model="obj: #macy-obj;" rotation="-60 0 0" position="0 -25 -15" scale="0.25 0.25 0.25"></a-entity> 
+            </a-entity>
           </a-entity>
+  
+            <a-entity class="collidable" geometry="primitive: box" position="0 -20 10" scale="5 5 5"></a-entity>
         </a-entity>
 
-          <a-entity class="collidable" geometry="primitive: box" position="0 -20 10" scale="5 5 5"></a-entity>
-      </a-entity>
-          
+      <!-- environmental -->
+      <a-dust num-points="2000" dispersion="150" color="white" log=false></a-dust>
 
-      <!-- minime -->
-      <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 20000">
-          <a-entity obj-model="obj: #macy-obj;" rotation="-60 0 0" scale="0.5 0.5 0.5" position="500 500 500"></a-entity> 
-      </a-entity>
-
-      <a-entity rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur: 30000" animation__up="property: position; to: 0 25 0; dur: 2500; easing: easeInOutSine; dir: alternate; loop: true;">
-          <a-entity obj-model="obj: #macy-obj;" rotation="-60 0 45" scale="0.5 0.5 0.5" position="900 900 900"></a-entity> 
+      <!-- sky -->
+      <a-sphere 
+      scale="7500 7500 7500"
+      material="metalness:1; roughness: 0; sphericalEnvMap: #grad-02; side: double;" position="0 0 0">
+      </a-sphere>  
+      
+      <!-- 3D OBJECTS -->
+      <a-entity position="-100 -2900 0" scale="15 15 15">
+          <a-obj-model src="#obj-plants1"></a-obj-model>
       </a-entity>
 
       <!-- idol -->
       <a-entity class="collidable" position="0 -2500 0" rotation="0 180 0" scale="23 23 23">
           <a-entity obj-model="obj: #macy-obj;" shader-frog="name:Electric_Shader"></a-entity>
-          <!-- <a-entity scale="10 10 10" fbx-model="src: url(#macy-fbx);">
-          </a-entity> -->
       </a-entity>
 
-      <!-- fallen angel -->
-            <!-- fallen angel -->
-            <a-entity id="rain" position="0 10 0" entity-generator="mixin: box">
-              <a-animation attribute="position" dur="16000" easing="linear" repeat="indefinite"
-                           to="0 0 0"></a-animation>
-            </a-entity>
+      <!-- minime -->
+      <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 20000">
+          <a-entity obj-model="obj: #macy-obj;" rotation="-60 0 0" scale="1 1 1" position="500 500 500"></a-entity> 
+      </a-entity>
 
-      <a-sphere shadow
-      shader-frog="name:Electric_Shader" 
-      radius="100"
-      position="1500 250 -50">
-</a-sphere>
+      <a-entity rotation="0 0 0" animation="property: rotation; to: 0 -360 0; loop: true; dur: 30000" animation__up="property: position; to: 0 25 0; dur: 2500; easing: easeInOutSine; dir: alternate; loop: true;">
+          <a-entity obj-model="obj: #macy-obj;" rotation="-60 0 45" scale="1 1 1" position="900 900 900"></a-entity> 
+      </a-entity>
 
-
-      <!-- sky -->
-      <a-sphere 
-        scale="7500 7500 7500"
-        material="metalness:1; roughness: 0; sphericalEnvMap: #grad-02; side: double;" position="0 0 0">
-      </a-sphere>  
-
-      <!-- environmental -->
-      <a-dust num-points="2000" dispersion="150" color="white" log=false></a-dust>
+    
+        <a-dust num-points="2000" dispersion="150" color="white" log=false></a-dust>
 
     </a-scene>
-   
+    <script>
+      AFRAME.registerComponent("listener", {
+      schema : 
+      {
+        stepFactor : {
+          type : "number",
+          default : 0.05
+        }
+      },
+      init: function () {
+        var direction = new THREE.Vector3();
+        console.log(direction);
+      },
+      tick : function(){	
+        this.el.components.camera.camera.parent.position.add(this.el.components.camera.camera.getWorldDirection().multiplyScalar(this.data.stepFactor));
+        // console.log("tick");
+      }
+    });
+    </script>
   </body>
 </html>
