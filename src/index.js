@@ -8,3 +8,5 @@ require('aframe-dust-component');
 
 // js files
 require('./js/test.js');
+require('./js/sound-player.js');
+require('./js/player-component.js');
